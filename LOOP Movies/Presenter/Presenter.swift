@@ -83,7 +83,7 @@ class Presenter : UIViewController, ModelDelegate, HomeViewDelegate, DetailsView
             self.detailsView.isHidden = false
             UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: {
                 self.detailsView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-                self.detailsView.baseView.frame = CGRect(x: 0, y: 70, width: self.detailsView.frame.size.width, height: self.detailsView.frame.size.height)
+                self.detailsView.baseView.frame = CGRect(x: 0, y: 70, width: self.detailsView.frame.size.width, height: self.detailsView.frame.size.height - 70)
             }, completion: {_ in
 
             })

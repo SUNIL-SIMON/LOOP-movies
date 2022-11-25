@@ -341,12 +341,11 @@ class DetailsView : UIView, UIScrollViewDelegate, CrewCollectionViewCellDelegate
 
     }
     override func layoutSubviews() {
-        let window = UIApplication.shared.windows.first
-        let bottomPadding = window?.safeAreaInsets.bottom ?? 20
+
         let sum1 = 100 + posterImage.frame.size.height + 18 + ratingsView.frame.size.height + 12 + releaseAndRuntimeLabel.frame.size.height + 10 + movieTitleLabel.frame.size.height + 10 + genereView.frame.size.height
         let sum2 = 47 + OverViewSectionLabel.frame.size.height + 16 + OverViewDescriptionLabel.frame.size.height + 30 + directorSectionLabel.frame.size.height + 16 + directorImageView.frame.size.height + 30 + actorsSectionLabel.frame.size.height + 16 + actorCollectionView.frame.size.height + 30 + KeyFactsSectionLabel.frame.size.height + 15 + KeyFactsViews.frame.size.height
-//        + releaseAndRuntimeLabel.frame.size.height + ratingsView.frame.size.height + movieTitleLabel.frame.size.height + OverViewSectionLabel.frame.size.height + OverViewDescriptionLabel.frame.size.height + actorCollectionView.frame.size.height + directorImageView.frame.size.height + actorsSectionLabel.frame.size.height + directorSectionLabel.frame.size.height + KeyFactsSectionLabel.frame.size.height + KeyFactsViews.frame.size.height
-        detailsScrollView.contentSize.height = sum1 + sum2 + 100// + 12 + 10 + 12 + 10 + 10 + 30 + 10 + 10 + topPadding
+
+        detailsScrollView.contentSize.height = sum1 + sum2 + 30
     }
     @objc func closeDetailsView()
     {
