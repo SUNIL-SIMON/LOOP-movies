@@ -18,6 +18,7 @@ class DetailsView : UIView, UIScrollViewDelegate, CrewCollectionViewCellDelegate
     
     
     let closeButton = UIButton()
+    let topBarTitleLabel = UILabel()
     let bookMarkButton = BookMarkButton(outlineImage: Appearance.shared.images.bookMarkDark)
     let topBarView = BlurView()
     
@@ -100,6 +101,11 @@ class DetailsView : UIView, UIScrollViewDelegate, CrewCollectionViewCellDelegate
         topBarView.addSubview(bookMarkButton)
         bookMarkButton.addTarget(self, action: #selector(bookMarkSelected), for: .touchUpInside)
 
+        topBarView.addSubview(topBarTitleLabel)
+        topBarTitleLabel.textColor = .black
+        topBarTitleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        topBarTitleLabel.text = ""
+        topBarTitleLabel.isHidden = true
         
         baseView.addSubview(detailsScrollView)
         detailsScrollView.delegate = self
@@ -201,6 +207,12 @@ class DetailsView : UIView, UIScrollViewDelegate, CrewCollectionViewCellDelegate
         bookMarkButton.topAnchor.constraint(equalTo: baseView.topAnchor, constant: 25).isActive = true
         bookMarkButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         bookMarkButton.widthAnchor.constraint(equalToConstant: 14).isActive = true
+        
+        topBarTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        topBarTitleLabel.trailingAnchor.constraint(equalTo: bookMarkButton.leadingAnchor, constant: -20).isActive = true
+        topBarTitleLabel.topAnchor.constraint(equalTo: baseView.topAnchor, constant: 25).isActive = true
+        topBarTitleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        topBarTitleLabel.leadingAnchor.constraint(equalTo: baseView.leadingAnchor, constant: 30).isActive = true
         
         detailsScrollView.translatesAutoresizingMaskIntoConstraints = false
         detailsScrollView.leadingAnchor.constraint(equalTo: baseView.leadingAnchor, constant: 0).isActive = true
@@ -342,10 +354,9 @@ class DetailsView : UIView, UIScrollViewDelegate, CrewCollectionViewCellDelegate
     }
     override func layoutSubviews() {
 
-        let sum1 = 100 + posterImage.frame.size.height + 18 + ratingsView.frame.size.height + 12 + releaseAndRuntimeLabel.frame.size.height + 10 + movieTitleLabel.frame.size.height + 10 + genereView.frame.size.height
-        let sum2 = 47 + OverViewSectionLabel.frame.size.height + 16 + OverViewDescriptionLabel.frame.size.height + 30 + directorSectionLabel.frame.size.height + 16 + directorImageView.frame.size.height + 30 + actorsSectionLabel.frame.size.height + 16 + actorCollectionView.frame.size.height + 30 + KeyFactsSectionLabel.frame.size.height + 15 + KeyFactsViews.frame.size.height
+        let contentheight =  KeyFactsViews.frame.origin.y + KeyFactsViews.frame.size.height
 
-        detailsScrollView.contentSize.height = sum1 + sum2 + 30
+        detailsScrollView.contentSize.height = contentheight + 30
     }
     @objc func closeDetailsView()
     {
@@ -358,6 +369,7 @@ class DetailsView : UIView, UIScrollViewDelegate, CrewCollectionViewCellDelegate
         movieTitleLabel.attributedText = getAttributedTitle(string1: movie.title, string2: " (\(movie.releaseDate.getYear()))", color: Appearance.shared.color.backgroundColor)
         castLabel.text = movie.director.name
         OverViewDescriptionLabel.text = movie.overview
+        topBarTitleLabel.text =  movie.title
         
         let currencyFormatter = NumberFormatter()
         currencyFormatter.usesGroupingSeparator = true
@@ -484,6 +496,15 @@ class DetailsView : UIView, UIScrollViewDelegate, CrewCollectionViewCellDelegate
     
     func getCastList() -> [CastType] {
         return movieDetails.cast
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > (movieTitleLabel.frame.size.height + movieTitleLabel.frame.origin.y - topBarView.frame.size.height)
+        {
+            topBarTitleLabel.isHidden = false
+        }
+        else{
+            topBarTitleLabel.isHidden = true
+        }
     }
     @objc func bookMarkSelected()
     {
